@@ -1,5 +1,6 @@
 from ftplib import FTP
 
+filename = "./setup/nas_stocks.txt"
 #read stocks from nasdaq ftp
 def read_stocks(save_name):
 	ftp_server = "ftp.nasdaqtrader.com"
@@ -11,7 +12,7 @@ def read_stocks(save_name):
 
 #create list of company dictionaries
 #[{symbol: '', name: ''}, {}, ..]
-def create_stock_list(filename):
+def create_stock_list():
 	#read files
 	f = open(filename, 'r')
 	text = f.read()
@@ -36,10 +37,18 @@ def create_stock_list(filename):
 
 	return stock_list
 
+def create_symbol_list():
+	f = open(filename, 'r')
+	text = f.read()
+	lines = text.split('\n')
+	del lines[0]
+	del lines[-1]
+	del lines[-1]
 
+	#add to list
+	symb_list = []
+	for line in lines:
+		data = line.split('|')
+		symb_list.append(data[0])
 
-if __name__ == "__main__":
-	pass
-	#read_stocks(file_nasdaq)
-	#stocks = create_stock_list(file_nasdaq)
-	#print stocks
+	return symb_list
